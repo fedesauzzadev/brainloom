@@ -57,9 +57,9 @@ export async function checkUpdate({ force = false } = {}) {
     let breaking = false;
     try {
       const log = await git(kit, "show", `origin/${branch}:CHANGELOG.md`);
-      const from = log.indexOf(`## [${local.join(".")}]`);
-      const to = log.indexOf(`## [${remote.join(".")}]`);
-      breaking = to >= 0 && (from < 0 || from > to) ? false : log.slice(to, from > to ? from : undefined).includes("BREAKING");
+      const start = log.indexOf(`## [${remote.join(".")}]`);
+      const end = log.indexOf(`## [${local.join(".")}]`);
+      breaking = start >= 0 && log.slice(start, end > start ? end : undefined).includes("BREAKING");
     } catch { /* changelog optional */ }
     const update = cmp(remote, local) > 0;
     state = { ts: Date.now(), update, line: `${local.join(".")} -> ${remote.join(".")}${breaking ? " [BREAKING]" : ""}`, breaking };
