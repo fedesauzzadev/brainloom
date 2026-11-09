@@ -17,7 +17,9 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 - Skills: `verify` (criteria audit, tests, functional execution, independent refutation) and `small-change` (encapsulated FIX/S flow).
 - Skills: `adopt` (existing codebase → area nodes with per-area user OK, honest post-hoc documentation, conventions + registry from real usage) and `reconcile` (drift detection: stale pointers, lying statuses, broken links, index rot; mechanical fixes direct, semantic after user OK).
 - OpenCode agent `brainloom/verifier`: independent read-only subagent with a refutation mandate (edits denied, execution allowed).
-- `/fix` command (triage → small-change).
+- OpenCode agents `brainloom/planner` (strong level: ambiguous triage, L planning) and `brainloom/scout` (fast level: targeted reading, pointer summaries).
+- Full command set: /triage, /plan-project, /build-slice, /fix, /verify, /reconcile, /adopt, /init-brain, /kit-update.
+- Agent routing by level (strong/balanced/fast) resolved from instance config at spawn time in skills.
 - `/kit-update` command.
 - Scripts: `check-update`, `validate-brain`, `migrate` (dry-run default, backup, validation, rollback).
 - Migrations skeleton + rules (`core/migrations/`), test fixtures for validation and the update/migration drill.

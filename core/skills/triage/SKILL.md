@@ -48,5 +48,12 @@ While implementing ANY class: if the diff exceeds `limits.max_diff_lines`
 (default 300) or `limits.max_files` (default 8) from `brain/config.yaml` →
 STOP, report, propose a split into smaller tasks. Do not continue by inertia.
 
+## 7. Routing to agents (levels from `models` in brain/config.yaml — never hardcode a model)
+- Ambiguous classification, or the task smells L → consult `brainloom/planner`
+  (level `strong`) with the task and node links.
+- Classifying against large/unfamiliar code → `brainloom/scout` (level `fast`)
+  for a dense pointer summary before deciding.
+- Spawn sequentially unless `max_parallel_agents` (default 1) says otherwise.
+
 ## No brain?
 If `brain/` does not exist in the project, offer to run `init-brain` first.

@@ -46,6 +46,10 @@ Top risks, one mitigation each (spike slice, fallback, cut).
 - On approval: write the slices into `brain/roadmap.md` (backlog table, slice 1
   as current), the risks, and update `brain/index.md`.
 
+## Routing (levels from `models` in brain/config.yaml)
+- Contract/architecture ambiguity while proposing → `brainloom/planner`
+  (level `strong`). Sequential spawns (respect `max_parallel_agents`).
+
 ## Existing codebase?
 This skill plans new or re-planned projects. To map an existing codebase into
 the brain, use `adopt` instead.

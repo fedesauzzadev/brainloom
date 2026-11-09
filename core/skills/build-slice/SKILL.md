@@ -12,6 +12,9 @@ arrive only after an approved plan.
 - `brain/index.md`, then the current slice from `brain/roadmap.md`.
 - Nodes that slice touches; `brain/shared/registry.md` and
   `brain/conventions.md` before writing anything new.
+- Large or unfamiliar code area in the slice? Send `brainloom/scout`
+  (level `fast` from `models` in config) to pre-read and summarize with
+  pointers before you read code yourself. Respect `max_parallel_agents`.
 
 ## 2. Decompose
 - Break the slice into nodes (M each; fold trivial S tasks into a node).
