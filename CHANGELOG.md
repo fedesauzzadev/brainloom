@@ -6,6 +6,8 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-09
+
 ### Added
 - Core brain templates (`schema_version: 1`): index, vision, roadmap, conventions, shared registry, node, decision, config.
 - Skills: `triage` (impact-radius classification and routing), `memory-update` (closing the loop: nothing is done until the brain reflects it).
