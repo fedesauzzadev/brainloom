@@ -14,6 +14,7 @@ None (fixture).
 |----|-------|------|------|--------|-----------|
 | N-0001 | Add greet function | feature | S | planned | code: app.js -> greet |
 | N-0002 | Fix greet to include the name | fix | S | verified | depends_on N-0001; evidence/N-0002.md |
+| N-0003 | Ship greet fix to production | chore | S | shipped | depends_on N-0002; evidence/N-0003.md |
 
 ## Open risks / blockers
 -

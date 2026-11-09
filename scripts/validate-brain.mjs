@@ -10,7 +10,7 @@ import { pathToFileURL } from "node:url";
 const ENUMS = {
   type: ["feature", "fix", "refactor", "chore", "spike"],
   size: ["S", "M", "L"],
-  status: ["planned", "in-progress", "verified", "done", "superseded"],
+  status: ["planned", "in-progress", "implemented", "verified", "shipped", "superseded"],
   reversibility: ["easy", "medium", "hard"],
 };
 
@@ -47,6 +47,7 @@ export function validateBrain(brainDir) {
   const configPath = join(brainDir, "config.yaml");
   if (!existsSync(configPath)) { errors.push("config.yaml missing"); return { errors, warnings, stats }; }
   const config = readFileSync(configPath, "utf8");
+  const schema = parseInt(/^schema_version:\s*(\d+)/m.exec(config)?.[1] ?? "0", 10);
   const need = (re, msg) => { if (!re.test(config)) errors.push(`config.yaml: ${msg}`); };
   need(/^schema_version:\s*\d+/m, "schema_version (integer) missing");
   need(/^kit_version:\s*\d+\.\d+\.\d+/m, "kit_version (x.y.z) missing");
@@ -76,6 +77,10 @@ export function validateBrain(brainDir) {
     if (scalar(fm, "id") !== id) errors.push(`${id}: frontmatter id "${scalar(fm, "id")}" != filename`);
     for (const [key, vals] of Object.entries(ENUMS)) {
       const v = scalar(fm, key);
+      if (key === "status" && v === "done" && schema < 2) {
+        warnings.push(`${id}: status "done" is legacy (pre-schema 2) — run the kit migration (0001)`);
+        continue;
+      }
       if (!vals.includes(v)) errors.push(`${id}: ${key} "${v ?? "missing"}" invalid (expected ${vals.join(" | ")})`);
     }
     const status = scalar(fm, "status");
@@ -92,8 +97,12 @@ export function validateBrain(brainDir) {
       else stats.decisions++;
     }
     const ver = { tests: scalar(fm, "tests"), functional: scalar(fm, "functional"), evidence: scalar(fm, "evidence") };
-    if ((status === "verified" || status === "done") && !Object.values(ver).some(Boolean))
-      errors.push(`${id}: status ${status} but verification fields are empty`);
+    if ((status === "verified" || status === "shipped") && !Object.values(ver).some(Boolean)) {
+      if (schema >= 2) errors.push(`${id}: status ${status} but verification fields are empty — demote to implemented or add evidence (command + result)`);
+      else warnings.push(`${id}: ${status} without evidence (legacy brain) — migration 0001 will demote it to implemented`);
+    }
+    if ((status === "verified" || status === "shipped") && list(fm, "verify").length === 0)
+      warnings.push(`${id}: status ${status} but verify recipe empty — write the exact command sequence on first verification`);
     if (ver.evidence && !existsSync(join(brainDir, ver.evidence)))
       errors.push(`${id}: evidence "${ver.evidence}" missing`);
     for (const ptr of list(fm, "code")) {

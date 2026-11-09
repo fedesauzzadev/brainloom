@@ -9,8 +9,18 @@ The code is the source of truth; the brain is a map with pointers. This skill
 is the closing step of any task. No node update → not done.
 
 ## 1. Update the node
-- `status`: `in-progress` → `verified` only with evidence; `done` after
-  independent verification. `superseded` when replaced (keep the link).
+- `status` ladder: `planned` → `in-progress` → `implemented` → `verified` → `shipped`.
+  - `implemented`: code complete, verification NOT yet run. This is the ceiling
+    without evidence — never write `verified` (or "fixed") on unrun code.
+  - `verified` (agent-done): you actually ran something. Fill `verification`
+    (command + result + evidence path) in the same edit. Blocked from verifying
+    locally? Stay `implemented` and note the blocker — commit/deploy gates
+    `shipped`, never verification.
+  - `shipped`: human gates passed (commit, deploy, merge). Ask once, record the
+    answer in decisions, stop clean. No limbo.
+  - `superseded` when replaced (keep the link).
+- First time you verify an area: write the exact command sequence into `verify:`
+  so the next verification is one read, not a rediscovery.
 - Fill `verification`: tests run (+ result), functional check performed
   (+ result), evidence path.
 - Fill or refresh `code` pointers as `path/file.ext -> symbol`. Pointers, never copies.

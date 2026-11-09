@@ -21,6 +21,12 @@ Any task — feature, fix, refactor, change question — is classified first
 4. Independent verification by a read-only verifier that tries to REFUTE it.
 5. Brain updated via `memory-update`. No node update → not done.
 
+That state is **agent-done** (`status: verified`) — it requires a filled
+`verification` block (command + result + evidence). No evidence → the node
+stops at `implemented`; never write `verified`/`fixed` on unrun code.
+Human-gated steps (commit, deploy, merge) are **shipped** — they never gate
+local verification, and local verification never waits on them.
+
 ## Limits
 If the diff exceeds `limits` in `brain/config.yaml` (default: 300 lines / 8 files):
 stop, report, propose a split. Never continue by inertia.

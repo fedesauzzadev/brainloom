@@ -5,8 +5,8 @@
 # schema_version: version of the brain FORMAT (integer). The kit bumps it only
 #   when the format changes, and ships a migration for each bump.
 # kit_version: kit version installed / last migrated.
-schema_version: 1
-kit_version: 0.1.0
+schema_version: 2
+kit_version: 0.3.0
 
 # Language for generated brain files (en, es, ...).
 language: en
