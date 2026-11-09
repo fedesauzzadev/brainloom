@@ -6,6 +6,11 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-09
+
+### Changed
+- **[BREAKING]** Node frontmatter: the `verification:` block is renamed to `proof:` (subfields `tests`, `functional`, `evidence` keep their names). Migration `0001-rename-verification-to-proof` upgrades brains automatically (schema 1 → 2).
+
 ### Added
 - Core brain templates (`schema_version: 1`): index, vision, roadmap, conventions, shared registry, node, decision, config.
 - Skills: `triage` (impact-radius classification and routing), `memory-update` (closing the loop: nothing is done until the brain reflects it).
