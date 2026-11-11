@@ -103,6 +103,11 @@ export function validateBrain(brainDir) {
     }
     if ((status === "verified" || status === "shipped") && list(fm, "verify").length === 0)
       warnings.push(`${id}: status ${status} but verify recipe empty — write the exact command sequence on first verification`);
+    const level = scalar(fm, "level");
+    if (level && !["smoke", "full"].includes(level))
+      errors.push(`${id}: verification.level "${level}" invalid (expected smoke | full)`);
+    if ((status === "verified" || status === "shipped") && !level)
+      warnings.push(`${id}: verification.level missing — declare smoke (orchestration/spec deltas) or full (product code)`);
     if (ver.evidence && !existsSync(join(brainDir, ver.evidence)))
       errors.push(`${id}: evidence "${ver.evidence}" missing`);
     for (const ptr of list(fm, "code")) {

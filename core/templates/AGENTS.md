@@ -22,7 +22,10 @@ Any task — feature, fix, refactor, change question — is classified first
 5. Brain updated via `memory-update`. No node update → not done.
 
 That state is **agent-done** (`status: verified`) — it requires a filled
-`verification` block (command + result + evidence). No evidence → the node
+`verification` block (command + result + evidence) and a declared depth in
+`verification.level`: `full` = tests + functional run (product code);
+`smoke` = structure validated, behavior spot-checked — orchestration/spec
+deltas only. No evidence → the node
 stops at `implemented`; never write `verified`/`fixed` on unrun code.
 Human-gated steps (commit, deploy, merge) are **shipped** — they never gate
 local verification, and local verification never waits on them.

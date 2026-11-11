@@ -6,6 +6,22 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-10
+
+### Added
+- `scripts/smoke.mjs` — kit self-check + skill verification runner. Structural mode (CI, offline): every skill declares a `## Verification` contract, referenced fixtures exist and their brains stay valid, every shipped `.mjs` parses, and any `.ps1`/`.cmd`/`.bat` is ASCII-only or UTF-8 with BOM. `--agent` mode runs each contract's task through the harness (`opencode run`) on a throwaway fixture copy and asserts expected artifacts (`file` / `grep` / `valid` ops) — verifying a skill no longer costs a full session.
+- Every core skill ships a `## Verification` section (fixture, task, observable asserts). `triage`, `memory-update` and `init-brain` are agent-runnable contracts; `kit-update` declares its manual drill.
+- Node frontmatter `verification.level` (`smoke` | `full`): declared depth of verification. `full` = tests + functional run (default for product code); `smoke` = structure validated, behavior spot-checked — only for orchestration/spec deltas. Additive optional field, no schema bump (same policy as `verify:` in 0.3.0).
+- `init-brain` non-interactive mode (§2b) for orchestrators: documented defaults, every assumption recorded as a reversible decision, then generate-validate-report. No more hand-rolled bypasses.
+- `brain/conventions.md` template: file-ownership table — one writer per file, extended by multi-role orchestrators before raising `max_parallel_agents`.
+- Windows script rule (ASCII-only or BOM for `.ps1`/`.cmd`/`.bat`) in `scripts/README.md` and `adapters/opencode/README.md`, enforced by `smoke.mjs`: PS 5.1 reads BOM-less UTF-8 as ANSI.
+- `tests/fixtures/empty-project` for the init-brain contract.
+- `tests/fake-agent.mjs` + CI step: the `--agent` plumbing (copy fixture → run → assert artifacts) is exercised offline on every push, no LLM needed.
+
+### Changed
+- `validate-brain` rejects invalid `verification.level` values (error) and warns when `verified`/`shipped` nodes declare no level — the smoke-vs-full gray zone is now visible instead of implicit.
+- Installer: bootstrap installs (run from a temp copy without `.git`) record a self-contained kit snapshot under `<config>/brainloom-kit/` instead of a `kit_path` that dangles after the temp dir is deleted. Manifest gains `source: clone | snapshot`; re-installing from a real clone cleans the stale snapshot up. `kit-update` explains the clone requirement on snapshot installs.
+
 ## [0.3.0] - 2026-11-09
 
 ### Removed

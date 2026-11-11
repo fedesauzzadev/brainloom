@@ -50,3 +50,16 @@ STOP, report, propose a split into smaller tasks. Do not continue by inertia.
 
 ## No brain?
 If `brain/` does not exist in the project, offer to run `init-brain` first.
+
+## Verification
+Fixture: tests/fixtures/sample-project
+Task: Bug — greet() prints (hello, undefined) when called without a name; make it default to (world). Apply triage classification and node creation only — do not edit code.
+- [ ] Classifies as FIX/S: local cause, no contract touched, 0-1 nodes affected
+- [ ] Creates node N-0004 with size: S and status: planned, acceptance_criteria filled BEFORE any code edit
+- [ ] Registers the node in brain/index.md
+
+expect: file brain/nodes/N-0004.md
+expect: grep brain/nodes/N-0004.md "size: S"
+expect: grep brain/nodes/N-0004.md "status: planned"
+expect: grep brain/nodes/N-0004.md "acceptance_criteria"
+expect: grep brain/index.md "N-0004"

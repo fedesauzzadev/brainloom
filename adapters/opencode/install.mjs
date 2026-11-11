@@ -68,5 +68,31 @@ if (old?.files) {
   }
 }
 
-writeFileSync(manifestPath, JSON.stringify({ kit_path: kitRoot, kit_version: version, installed_at: new Date().toISOString(), files: installed }, null, 2));
-console.log(`brainloom ${version} installed — kit clone recorded at ${kitRoot}`);
+// Bootstrap installs (installer run from a temp/pipe copy with no .git) would
+// leave a dangling kit_path once the temp dir is deleted — record a
+// self-contained snapshot inside the config dir instead.
+const isClone = existsSync(join(kitRoot, ".git"));
+let effectiveKit = kitRoot;
+if (!isClone) {
+  const snap = join(configDir, "brainloom-kit");
+  rmSync(snap, { recursive: true, force: true });
+  mkdirSync(snap, { recursive: true });
+  for (const entry of ["VERSION", "CHANGELOG.md", "scripts", "core"])
+    cpSync(join(kitRoot, entry), join(snap, entry), { recursive: true });
+  effectiveKit = snap;
+  console.log(`bootstrap install (no git clone): kit snapshot recorded at ${snap} — git-based updates require re-installing from a clone`);
+} else {
+  // a previous bootstrap install may have left a snapshot that is now obsolete
+  const prevSnap = join(configDir, "brainloom-kit");
+  if (readJson(manifestPath)?.kit_path === prevSnap && prevSnap !== kitRoot)
+    rmSync(prevSnap, { recursive: true, force: true });
+}
+
+writeFileSync(manifestPath, JSON.stringify({
+  kit_path: effectiveKit,
+  kit_version: version,
+  source: isClone ? "clone" : "snapshot",
+  installed_at: new Date().toISOString(),
+  files: installed,
+}, null, 2));
+console.log(`brainloom ${version} installed — kit recorded at ${effectiveKit} (${isClone ? "clone" : "snapshot"})`);

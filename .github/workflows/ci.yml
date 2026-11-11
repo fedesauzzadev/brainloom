@@ -17,7 +17,11 @@ jobs:
         with:
           node-version: 22
       - name: syntax check
-        run: node --check scripts/check-update.mjs && node --check scripts/validate-brain.mjs && node --check scripts/migrate.mjs
+        run: node --check scripts/check-update.mjs && node --check scripts/validate-brain.mjs && node --check scripts/migrate.mjs && node --check scripts/smoke.mjs
+      - name: smoke (structural)
+        run: node scripts/smoke.mjs
+      - name: smoke (agent plumbing, offline)
+        run: node scripts/smoke.mjs --agent --skill triage --agent-cmd "node tests/fake-agent.mjs"
       - name: validate sample brain
         run: node scripts/validate-brain.mjs tests/fixtures/sample-project/brain
       - name: migration dry-run
