@@ -6,6 +6,12 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-10
+
+### Fixed
+- `check-update` serving a cache entry written by the session-notice plugin printed `up to date (?)` / `? -> undefined available` — the plugin cached `{update, line}` without explicit versions. The script now falls back to the cached `line`, and the plugin records `local`/`remote` in new cache entries.
+- `core/migrations/README.md` referenced a CONTRIBUTING file that does not exist; it now points at the rules in the same document.
+
 ## [0.4.0] - 2026-11-10
 
 ### Added
