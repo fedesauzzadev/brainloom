@@ -17,6 +17,9 @@ It CORRECTS the brain to match the code — never the other way around.
 - **Broken links**: `depends_on`/`affects`/`replaces` pointing at missing nodes.
 - **Index rot**: nodes missing from `brain/index.md`; index rows for dead nodes.
 - **Out-of-band changes** (if git): commits touching files that no node points to.
+- **Design-doc drift** (if the project keeps checked-in design docs, e.g.
+  `docs/designs/`): claims that no longer match the code get REPORTED only —
+  the user decides whether the doc or the code is wrong.
 - **Budgets**: files over their line budgets (node body 40, index 150).
 
 ## 2. Classify each drift

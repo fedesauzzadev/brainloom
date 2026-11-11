@@ -1,6 +1,6 @@
 ---
 name: Brainloom Build Slice
-description: Implement one vertical slice end-to-end from the approved roadmap — decompose into nodes, write acceptance criteria before coding, build thin through all layers, verify functionally, and update the brain. Use when the roadmap's current slice is approved to build, or when triage routes an M-sized task.
+description: Implement one vertical slice end-to-end from the approved roadmap — decompose into nodes, write acceptance criteria before coding, attack them with a fresh-eyes refuter, build thin through all layers, verify functionally, and update the brain. Use when the roadmap's current slice is approved to build, or when triage routes an M-sized task.
 ---
 
 # Build Slice
@@ -22,20 +22,35 @@ arrive only after an approved plan.
   code — observable behavior per node. All nodes of the slice share its `slice:`
   value. Register them in `brain/index.md`.
 
-## 3. Per node: thin vertical
+## 3. Fresh eyes on the criteria (cost-gated)
+- Spawn the read-only refuter subagent (`brainloom/refuter`, level `balanced`)
+  ONLY when the slice earns it — 2+ nodes (criteria interlock, a wrong
+  assumption compounds), OR the slice introduces a new architecture / walking
+  skeleton, OR any node touches a shared contract. Give it the node files
+  (criteria) and the code pointers they name — NOT the conversation.
+- Single-node slice with local criteria → run the same four-lens pass
+  (assumptions, YAGNI, reuse & placement, readiness) yourself as a separate
+  step, and SAY the refutation was not independent. Cheap, still catches
+  vague criteria.
+- No subagent capability in the harness? Same fallback: self-run, declare it.
+- Blocking findings → fix the criteria now: cheap here, expensive after
+  implementation. Findings you reject get listed in the close report, not
+  hidden.
+
+## 4. Per node: thin vertical
 - Implement the minimum that satisfies the acceptance criteria across ALL layers.
 - Walking skeleton (first slice): thinnest end-to-end path; leave explicit
   extension points instead of building options "for later".
 - Reuse what registry/conventions already offer; new duplication candidate
   (2nd occurrence)? Registry candidate, no abstraction.
 
-## 4. Stop conditions
+## 5. Stop conditions
 - Diff beyond `limits` in `brain/config.yaml` → stop, report, propose a split.
 - The node needs a contract change affecting other slices → stop; that is L:
   plan + explicit user approval first.
 - Blocking ambiguity → ask now (grouped, numbered), never mid-way.
 
-## 5. Per node: verify for real
+## 6. Per node: verify for real
 - Run project tests (`commands.test` in config); add tests when a harness exists.
 - Functional check: actually run the thing (`commands.run` or directly) against
   each acceptance criterion.
@@ -44,7 +59,7 @@ arrive only after an approved plan.
   refutation subagent) earns `status: verified` — without it the node stays
   `implemented`. Human gates (commit/deploy) later promote it to `shipped`.
 
-## 6. Close the slice
+## 7. Close the slice
 - All nodes verified → update `brain/roadmap.md` (slice done, next current),
   `brain/index.md`, and `brain/conventions.md` if a new pattern emerged.
 - Apply `memory-update` discipline: links, registry, decisions.

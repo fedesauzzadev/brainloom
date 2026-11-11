@@ -6,6 +6,17 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-11
+
+### Added
+- Fresh-eyes plan refutation, adapted from Google's Elephant-Goldfish Model (Apache-2.0): a plan must survive a reviewer that never saw the conversation that produced it. New read-only subagent `brainloom/refuter` (edits denied) that attacks a plan through four lenses — unstated assumptions/self-containment, YAGNI, reuse & placement, and implementation readiness (named files/symbols must exist in the repo; criteria must be observable). Cost-gated everywhere (token-economy rule — spawns are the exception, not the default): `plan-project` §7 spawns only for 3+ slices, a greenfield skeleton, or cross-slice shared contracts; `build-slice` §3 spawns only for 2+ nodes, a new architecture/walking skeleton, or a shared-contract node. Below the gate, the same four-lens pass runs in-session with an explicit not-independent declaration.
+- Anti chat-dump rule in the `AGENTS.md` template (new "Long artifacts" section, appended at the end): proposals, drafts, refutation reports, and multi-section plans are files; chat gets a pointer plus the decision ask — long dumps pollute context for every later turn.
+
+### Changed
+- `reconcile` drift detection now also covers checked-in design docs (e.g. `docs/designs/`): divergence is reported, never auto-corrected — the user decides doc vs code (EGM's drift-report stance).
+
+No brain-format change: `schema_version` stays 2; no migration needed.
+
 ## [0.6.0] - 2026-11-11
 
 ### Added

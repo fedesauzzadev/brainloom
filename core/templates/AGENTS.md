@@ -82,3 +82,8 @@ in the final summary.
 ## Update check
 On session start, run the kit's `check-update` script (or heed the notice
 plugin). One line, never blocks. Opt-out: `update_check.enabled` in `brain/config.yaml`.
+
+## Long artifacts (anti chat-dump)
+Proposals, drafts, refutation reports, and multi-section plans are FILES
+(under `brain/` or the repo) — never dumped into chat. Chat gets a short
+pointer plus the decision ask. Long dumps pollute context for every later turn.

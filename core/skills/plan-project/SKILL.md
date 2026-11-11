@@ -41,14 +41,33 @@ A vertical slice is the minimum that crosses ALL layers and works end-to-end.
 ## 6. Risks
 Top risks, one mitigation each (spike slice, fallback, cut).
 
-## 7. Approval → record
-- Present the proposal; WAIT for the user's OK (adjust and re-present if not).
+## 7. Fresh eyes before approval (cost-gated)
+- Spawn the read-only refuter subagent (`brainloom/refuter`, level `strong`)
+  ONLY when the proposal earns it — 3+ slices, OR a new architecture/greenfield
+  skeleton, OR shared contracts across slices (a wrong assumption compounds).
+  Give it the FULL proposal (slices, shared-code candidates, risks) and the
+  code pointers it names — but NOT the conversation's reasoning. Its fresh
+  context is the point: it attacks unstated assumptions, YAGNI, duplication,
+  and readiness (do the named files/symbols exist?).
+- Small plan (1-2 independent slices, known shape) → run the same four-lens
+  pass yourself as a separate step, and SAY the refutation was not
+  independent. One spawn per roadmap is cheap; zero is cheaper when the plan
+  is small.
+- Fold blocking findings into the proposal; list the findings you reject
+  (with why) — never hide them.
+
+## 8. Approval → record
+- Present the proposal WITH the refutation outcome (or the declared
+  non-independent pass); WAIT for the user's OK (adjust and re-present if
+  not).
 - On approval: write the slices into `brain/roadmap.md` (backlog table, slice 1
   as current), the risks, and update `brain/index.md`.
 
 ## Routing (levels from `models` in brain/config.yaml)
 - Contract/architecture ambiguity while proposing → `brainloom/planner`
   (level `strong`). Sequential spawns (respect `max_parallel_agents`).
+- Fresh-eyes refutation of the proposal (§7, when its cost gate opens) →
+  `brainloom/refuter` (level `strong`).
 
 ## Existing codebase?
 This skill plans new or re-planned projects. To map an existing codebase into
@@ -59,4 +78,5 @@ Fixture: tests/fixtures/sample-project
 Manual drill (no Task line — §7 records only after explicit user approval,
 which a smoke harness cannot grant honestly).
 - [ ] Proposal: ordered slices, slice 1 is a walking skeleton, risks with mitigations
+- [ ] Refuter pass on the proposal before approval; findings folded or listed
 - [ ] Nothing written to brain/roadmap.md before the approval step
