@@ -3,16 +3,35 @@
 
 Guiding principle: **small verified steps, real memory, no monsters.**
 
-## Reading order (token economy)
-1. `brain/index.md` — always first.
+## Fast-Path (zero-overhead routing)
+Before triage: one deterministic check, zero file reads.
+
+A task is **refined** when ALL hold:
+- it names its target exactly (file(s), symbol, or pattern);
+- it states the expected behavior (acceptance is implicit in the request);
+- it touches no shared contract and has no blocking unknowns.
+
+Refined → skip triage and skip the index entirely. Read ONLY the named
+files (path injection — never `brain/index.md`), make the minimal diff,
+verify with the project's real command, then close via `memory-update`
+(one node, `size: S`, criteria = the stated behavior). Any doubt → not
+refined; full triage below.
+
+Fast-Path reply = data only: files touched, one-line diff summary,
+verification command + observed result. No preamble, no narration —
+every extra sentence is paid output tokens.
+
+## Reading order (token economy — full path only)
+1. `brain/index.md` — always first. Fast-Path never reads it.
 2. Only the nodes the task plausibly touches (follow links from the index).
 3. `brain/shared/registry.md` before writing anything potentially shared.
 4. `brain/conventions.md` for patterns and style.
 5. Only then the specific code a node points to. Never explore the repo blind.
 
-## Every task goes through triage
-Any task — feature, fix, refactor, change question — is classified first
-(FIX/S, M, L by impact radius) and routed by the `triage` skill. Never skip it.
+## Every non-refined task goes through triage
+Any task that is not refined — feature, fix, refactor, change question —
+is classified first (FIX/S, M, L by impact radius) and routed by the
+`triage` skill. Never skip it.
 
 ## Done means
 1. Acceptance criteria written BEFORE coding (observable behavior).

@@ -5,7 +5,16 @@ description: Classify an incoming task by impact radius before touching code and
 
 # Triage
 
-Every task starts here. Classify first, then route. Never skip, never code first.
+Every non-refined task starts here. Classify first, then route. Never skip, never code first.
+
+## 0. Fast-Path gate (before any read)
+One deterministic check, zero file reads: the task is **refined** when it
+names its exact target (file(s), symbol, or pattern), states the expected
+behavior, and touches no shared contract. Refined → route straight to
+`small-change` Fast-Path mode: no index read, no classification, no
+blocking questions — only the close step (`memory-update`) still runs,
+acting as telemetry behind a transparent gateway. Any doubt → not
+refined, continue below.
 
 ## 1. Load context (cheap reads only)
 1. Read `brain/index.md`.

@@ -6,6 +6,18 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-11
+
+### Added
+- **Fast-Path (zero-overhead routing)** for refined tasks. A deterministic gate — zero file reads — in the `AGENTS.md` template and `triage` §0: a task that names its exact target (file(s), symbol, or pattern), states the expected behavior, and touches no shared contract skips triage, the index, and blocking questions. It routes straight to `small-change` Fast-Path mode: path injection (read ONLY the named files, never `brain/index.md`), minimal diff, real verification, and the `memory-update` close still runs as telemetry behind the transparent gateway. Any doubt → not refined, full triage unchanged.
+
+### Changed
+- Fast-Path replies are data-only: files touched, one-line diff summary, verification command + observed result — no preamble or narration (output-token economy).
+- `AGENTS.md` template reading order now applies to the full path only; the Fast-Path never reads the index.
+- Kit-dev rule (repo `AGENTS.md` §6): the template is the static prefix every instance sends every turn — keep stable sections byte-stable (prompt caching only pays on an unchanged prefix), never reorder, volatile content stays at the end.
+
+No brain-format change: `schema_version` stays 2; no migration needed.
+
 ## [0.5.1] - 2026-11-11
 
 ### Added

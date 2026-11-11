@@ -29,3 +29,9 @@ and mark the work accordingly — never present it as done.
 5. This repo has no brain/ yet — full init-brain dogfooding is a pending
    decision. Until then, THIS file is the repo's memory: update it when a
    rule changes, and record durable decisions in CHANGELOG.md entries.
+6. `core/templates/AGENTS.md` is the static prefix every instance sends on
+   every turn. Provider-side prompt caching only pays while that prefix is
+   byte-identical: keep stable sections stable (edit in place, never
+   reorder), append new rules at a section end, and keep volatile
+   per-project content at the file's end. Plugin notices append to the END
+   of the prompt, never the front.

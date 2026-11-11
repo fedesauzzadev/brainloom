@@ -7,6 +7,14 @@ description: Encapsulated FIX/S workflow for small fixes and tweaks on top of ex
 
 Triage already classified this FIX/S. Keep it small and encapsulated.
 
+## 0. Fast-Path mode (routed from the triage gate, task arrived refined)
+Skip the locate-by-node step: read ONLY the files the task names — path
+injection, never `brain/index.md`. Acceptance criteria = the behavior the
+task stated. Then §2-§5 unchanged: one node `size: S`, minimal diff, real
+verification, `memory-update` close. Reply = data only: files touched,
+one-line diff summary, verification command + observed result. No
+preamble, no narration.
+
 ## 1. Locate
 - Read the affected node(s) (`affects` links) and ONLY the code they point to.
 - Confirm the cause is local. If it spreads (contracts, several nodes), STOP —
