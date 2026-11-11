@@ -6,6 +6,9 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+### Added
+- The kit repo now dogfoods the kit itself: `brain/` initialized (clean start, no adopt mapping — history stays in CHANGELOG.md). Kit-dev rules stay in `AGENTS.md` §1–6; the brainloom instance block is appended below them. Bilingual convention: English structure, Spanish one-line summaries for the human (decision D-0002). Model tiers empty → harness default, stated when used (D-0004). Not shipped to users: the installer copies only `core/`, `adapters/`, `scripts/`.
+
 ## [0.7.1] - 2026-11-11
 
 ### Changed

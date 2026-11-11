@@ -1,0 +1,38 @@
+# brainloom instance configuration
+# This file belongs to YOUR project. Everything here is per-project; the kit never hardcodes it.
+
+# --- Identity ---------------------------------------------------------------
+schema_version: 2
+kit_version: 0.7.1
+
+# English for structure/criteria (what agents read every turn); Spanish
+# one-line summaries for the human in index.md (decision D-0002).
+language: en
+
+# --- Project commands --------------------------------------------------------
+# No package.json in this repo (deliberate: scripts are stdlib-only .mjs).
+# The kit's own smoke is both the test suite and the runnable (decision D-0003).
+commands:
+  test: ["node scripts/smoke.mjs"]
+  lint: []
+  build: []
+  run: ["node scripts/smoke.mjs"]
+
+# --- Anti-monster limits ----------------------------------------------------
+limits:
+  max_diff_lines: 300
+  max_files: 8
+
+# --- Agents -----------------------------------------------------------------
+max_parallel_agents: 1
+
+# Empty = harness default model, stated explicitly when used (decision D-0004).
+models:
+  strong: ""
+  balanced: ""
+  fast: ""
+
+# --- Update check ------------------------------------------------------------
+update_check:
+  enabled: true
+  remote_url: "https://github.com/fedesauzzadev/brainloom.git"
