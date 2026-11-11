@@ -18,12 +18,16 @@ step 3 — do not pretend tests exist.
 ## 3. Functional verification
 Actually run the thing (`commands.run`, CLI, endpoint, flow) per criterion.
 Expected vs observed, each step. Save a short evidence file in
-`brain/evidence/` and reference it from the node.
+`brain/evidence/` and reference it from the node as `evidence/<file>` —
+relative to `brain/`, never the project-root form.
 
 ## 4. Independent verification (refutation)
 Spawn the read-only verifier subagent (harness namespace, e.g.
-`brainloom/verifier`). Resolve its model level (`balanced` or `strong`) from
-`models` in `brain/config.yaml` — never hardcode a model. Give it:
+`brainloom/verifier`). Batch when you can: verifying several nodes (a finished
+slice) is ONE spawn with all of them — per-node spawns are the expensive
+habit; the refutation itself stays per-criterion. A mixed batch takes the
+highest model level its nodes require. Resolve the level (`balanced` or
+`strong`) from `models` in `brain/config.yaml` — never hardcode a model. Give it:
 - the node id(s) and their acceptance criteria,
 - what was built and the claimed evidence,
 - how to run the thing (commands from config),

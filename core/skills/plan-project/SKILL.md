@@ -42,26 +42,30 @@ A vertical slice is the minimum that crosses ALL layers and works end-to-end.
 Top risks, one mitigation each (spike slice, fallback, cut).
 
 ## 7. Fresh eyes before approval (cost-gated)
+- Write the full proposal (slices, shared-code candidates, risks) to
+  `brain/.staging/proposal.md` — ONE artifact: what the refuter attacks and
+  what the user approves must be the same text.
 - Spawn the read-only refuter subagent (`brainloom/refuter`, level `strong`)
   ONLY when the proposal earns it — 3+ slices, OR a new architecture/greenfield
   skeleton, OR shared contracts across slices (a wrong assumption compounds).
-  Give it the FULL proposal (slices, shared-code candidates, risks) and the
-  code pointers it names — but NOT the conversation's reasoning. Its fresh
-  context is the point: it attacks unstated assumptions, YAGNI, duplication,
-  and readiness (do the named files/symbols exist?).
+  Give it the proposal FILE PATH and the code pointers it names — NOT the
+  conversation's reasoning. Its fresh context is the point: it attacks
+  unstated assumptions, YAGNI, duplication, and readiness (do the named
+  files/symbols exist?).
 - Small plan (1-2 independent slices, known shape) → run the same four-lens
   pass yourself as a separate step, and SAY the refutation was not
   independent. One spawn per roadmap is cheap; zero is cheaper when the plan
   is small.
-- Fold blocking findings into the proposal; list the findings you reject
+- Fold blocking findings into the proposal file; list the findings you reject
   (with why) — never hide them.
 
 ## 8. Approval → record
-- Present the proposal WITH the refutation outcome (or the declared
-  non-independent pass); WAIT for the user's OK (adjust and re-present if
-  not).
+- Point the user at the proposal file (refutation outcome folded in or
+  declared); chat carries a summary + the decision ask, never the full dump.
+  WAIT for the user's OK (adjust and re-present if not).
 - On approval: write the slices into `brain/roadmap.md` (backlog table, slice 1
-  as current), the risks, and update `brain/index.md`.
+  as current), the risks, update `brain/index.md`, and delete the staging
+  proposal file.
 
 ## Routing (levels from `models` in brain/config.yaml)
 - Contract/architecture ambiguity while proposing → `brainloom/planner`

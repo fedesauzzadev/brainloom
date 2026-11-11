@@ -57,7 +57,9 @@ arrive only after an approved plan.
 - Evidence summary → `brain/evidence/`; fill the node's `verification` and
   declare `level`. Independent verification (the `verify` skill, incl. the
   refutation subagent) earns `status: verified` — without it the node stays
-  `implemented`. Human gates (commit/deploy) later promote it to `shipped`.
+  `implemented`. Run it ONCE per slice: ONE verifier spawn with ALL the
+  slice's nodes (criteria + evidence in a single prompt), never one spawn per
+  node. Human gates (commit/deploy) later promote it to `shipped`.
 
 ## 7. Close the slice
 - All nodes verified → update `brain/roadmap.md` (slice done, next current),

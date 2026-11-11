@@ -6,6 +6,17 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-11-11
+
+### Changed
+- Verifier batching (token economy): independent refutation now runs ONE spawn per slice covering all its nodes — criteria + evidence in a single prompt — instead of one spawn per node (`verify` §4, `build-slice` §6). The refutation itself stays per-criterion; a mixed batch takes the highest model level its nodes require.
+- `plan-project` proposal is now a file (`brain/.staging/proposal.md`): the refuter attacks the same text the user approves (no drift between reviewed and presented), the spawn prompt carries a path instead of the full proposal, and approval chat carries a summary + the decision ask per the anti chat-dump rule. The staging file is deleted once the roadmap records (or the proposal is rejected).
+
+### Fixed
+- `validate-brain` rejected nodes whose `verification.evidence` path was written relative to the project root (`brain/evidence/x.md`) instead of the brain dir (`evidence/x.md`) — found by a real `verify` contract run failing on `expect: valid brain`. The validator now accepts either form (existence is checked against disk, not against a path convention); `verify` §3 pins the canonical brain-relative form. Verified: project-relative existing file passes, missing file still errors.
+
+No brain-format change: `schema_version` stays 2; no migration needed.
+
 ## [0.7.0] - 2026-11-11
 
 ### Added
