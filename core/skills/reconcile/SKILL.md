@@ -36,7 +36,9 @@ It CORRECTS the brain to match the code — never the other way around.
 
 ## 4. Close
 - Apply fixes (mechanical directly, semantic after user OK).
-- Re-run `node <kit>/scripts/validate-brain.mjs <project>/brain` — must pass.
+- Re-run `node <scripts>/validate-brain.mjs <project>/brain` — must pass.
+  (`<scripts>` = `scripts_path` from `~/.config/opencode/brainloom.kit.json`,
+  fallback `<kit_path>/scripts`.)
 - Report: drifts found / fixed / deferred (with reasons), nodes touched,
   residual unknowns.
 

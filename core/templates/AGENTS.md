@@ -30,6 +30,27 @@ stops at `implemented`; never write `verified`/`fixed` on unrun code.
 Human-gated steps (commit, deploy, merge) are **shipped** — they never gate
 local verification, and local verification never waits on them.
 
+## Model routing (levels from `models` in brain/config.yaml — never hardcode a provider)
+Route by task, not habit. Levels are abstract; each project maps them to its
+provider's concrete models (see the AGENTS instance file or brain/config.yaml).
+
+| Task | Level | Why |
+|---|---|---|
+| L-class planning, architecture, contract design, ambiguous triage | `strong` | judgment over irreversibles |
+| Refutation verdicts on complex nodes; final review of large diffs | `strong` | a wrong "pass" here costs the most |
+| Default build work; `verify` on product code; semantic `reconcile` calls | `balanced` | quality work, bounded scope |
+| Reading, searching, summarizing code (scout); mechanical edits — pointers, index rows, evidence formatting | `fast` | volume, no judgment |
+| Re-running checks; mechanical `reconcile` fixes; formatting artifacts | `fast` | deterministic |
+
+Rules:
+- Reading, writing mechanical artifacts, executing checks → `fast`.
+  Thinking, deciding, refuting → `strong`. Between the two → `balanced`.
+- Two levels look equal? Take the cheaper one first; escalate only on a
+  failed or ambiguous result. Escalation is one spawn; over-provisioning
+  every step is the expensive habit.
+- `models` empty in config? Use the harness default and SAY SO — never
+  guess a model id.
+
 ## Limits
 If the diff exceeds `limits` in `brain/config.yaml` (default: 300 lines / 8 files):
 stop, report, propose a split. Never continue by inertia.

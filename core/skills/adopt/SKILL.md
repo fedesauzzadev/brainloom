@@ -46,7 +46,9 @@ For each area (show the list first; the user approves order and scope):
 
 ## 5. Close
 - `brain/roadmap.md`: only known future work the user mentions; otherwise empty.
-- Run `node <kit>/scripts/validate-brain.mjs <project>/brain` — must pass.
+- Run `node <scripts>/validate-brain.mjs <project>/brain` — must pass.
+  (`<scripts>` = `scripts_path` from `~/.config/opencode/brainloom.kit.json`,
+  fallback `<kit_path>/scripts`.)
 - Report: areas mapped/skipped, nodes created, contracts found, registry
   entries, open questions.
 

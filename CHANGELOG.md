@@ -6,6 +6,15 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-11-11
+
+### Added
+- Installer exposes the instance-facing kit scripts (`validate-brain`, `migrate`, `check-update`) at a stable config-local path — `~/.config/opencode/brainloom/` — recorded as `scripts_path` in the manifest. Skills no longer reference `<kit>/scripts` alone: they resolve `scripts_path` first (fallback `<kit_path>/scripts`), so agents stop hunting for the validator across the filesystem. `smoke.mjs` is excluded (it resolves the kit root from its own location and runs from the repo only). CI verifies the exposed scripts install and run.
+- Model routing, portable across providers: a decision table in the `AGENTS.md` template (task type → `strong`/`balanced`/`fast`, with escalation rules — take the cheaper level first, escalate on failure), and `init-brain` now PROPOSES the level mapping by classifying available models by capability tier (largest reasoning model → strong, mid-tier → balanced, fastest/cheapest → fast) instead of leaving `models` empty. Works non-interactively too (mapping recorded as an assumption-decision).
+
+### Fixed
+- `init-brain` §3 wording: `config.yaml` lives at `core/templates/config.yaml`, not inside `core/templates/brain/` — the copy step now says so explicitly (found by a real agent contract run).
+
 ## [0.5.0] - 2026-11-11
 
 ### Added

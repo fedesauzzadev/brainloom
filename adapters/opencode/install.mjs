@@ -39,6 +39,13 @@ const agentsSrc = join(kitRoot, "adapters", "opencode", "agents");
 if (existsSync(agentsSrc)) for (const d of dirs(agentsSrc)) for (const f of files(join(agentsSrc, d))) plan.push(["agent", join(agentsSrc, d, f), join(configDir, "agents", d, f)]);
 const pluginSrc = join(kitRoot, "adapters", "opencode", "plugin");
 for (const f of files(pluginSrc)) plan.push(["plugin", join(pluginSrc, f), join(configDir, "plugins", "brainloom", f)]);
+// Kit scripts are exposed at a stable config-local path so agents can run
+// validate-brain/migrate without hunting for the kit clone. Instance-facing
+// scripts only: smoke.mjs resolves the kit root relative to its own file and
+// must run from the repo.
+const scriptsDir = join(configDir, "brainloom");
+for (const f of files(join(kitRoot, "scripts")).filter((f) => f.endsWith(".mjs") && f !== "smoke.mjs"))
+  plan.push(["script", join(kitRoot, "scripts", f), join(scriptsDir, f)]);
 
 // Collision check: abort before copying anything if a target exists and differs.
 const conflicts = plan.filter(([, src, dst]) => existsSync(dst) && !sameContent(src, dst));
@@ -90,6 +97,7 @@ if (!isClone) {
 
 writeFileSync(manifestPath, JSON.stringify({
   kit_path: effectiveKit,
+  scripts_path: scriptsDir,
   kit_version: version,
   source: isClone ? "clone" : "snapshot",
   installed_at: new Date().toISOString(),

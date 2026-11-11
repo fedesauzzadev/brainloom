@@ -27,6 +27,11 @@ jobs:
         run: node scripts/smoke.mjs --agent --skill triage --agent-cmd "node tests/fake-agent.mjs"
       - name: validate sample brain
         run: node scripts/validate-brain.mjs tests/fixtures/sample-project/brain
+      - name: installer exposes kit scripts
+        run: |
+          node adapters/opencode/install.mjs --config-dir "$RUNNER_TEMP/bl"
+          node "$RUNNER_TEMP/bl/brainloom/validate-brain.mjs" tests/fixtures/sample-project/brain
+          node "$RUNNER_TEMP/bl/brainloom/migrate.mjs" tests/fixtures/sample-project/brain --migrations-dir tests/fixtures/migrations
       - name: migration dry-run
         run: node scripts/migrate.mjs tests/fixtures/sample-project/brain --migrations-dir tests/fixtures/migrations
       - name: update check is offline-tolerant
