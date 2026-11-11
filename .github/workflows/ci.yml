@@ -11,6 +11,9 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash # pinned: the background-service-free default shell on every runner image
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

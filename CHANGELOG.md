@@ -6,6 +6,15 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-11-11
+
+### Fixed
+- `smoke.mjs --agent` leaked its temp fixture copy on Windows: the nested `opencode run` shared the background service, which holds the cwd handle indefinitely. Agent runs now use `--standalone` (private server dies with the child process), so the runner's cleanup actually deletes the temp dir — verified with a real triage contract run: zero new temp dirs left behind.
+- CI steps now run under a pinned `shell: bash` (present on every runner image); the `&&` syntax-check chain previously depended on the runner's default shell being PowerShell 7+. Every `run:` command was verified locally under git-bash exactly as written.
+
+### Added
+- Root `AGENTS.md` for the kit repo itself: the kit held to its own standard — "TODO se verifica" (no claim of done without executed evidence), development rules, and the pending init-brain dogfooding decision.
+
 ## [0.4.1] - 2026-11-10
 
 ### Fixed

@@ -118,10 +118,13 @@ function runAgentTask(c, fixtureDir) {
       execFileSync(cmd, [...rest, prompt], { cwd: tmp, stdio: "inherit" });
     } else if (process.platform === "win32") {
       // .cmd shims need a shell on Windows; --auto: writes go to a throwaway
-      // temp copy, so auto-approve is safe here; keep the prompt quote-free
-      execFileSync("opencode", ["run", "--auto", `"${prompt.replace(/"/g, "'")}"`], { cwd: tmp, stdio: "inherit", shell: true });
+      // temp copy, so auto-approve is safe here; --standalone: a private
+      // server dies with the child, releasing the cwd handle so cleanup can
+      // delete the temp dir (the shared background service holds it forever);
+      // keep the prompt quote-free
+      execFileSync("opencode", ["run", "--auto", "--standalone", `"${prompt.replace(/"/g, "'")}"`], { cwd: tmp, stdio: "inherit", shell: true });
     } else {
-      execFileSync("opencode", ["run", "--auto", prompt], { cwd: tmp, stdio: "inherit" });
+      execFileSync("opencode", ["run", "--auto", "--standalone", prompt], { cwd: tmp, stdio: "inherit" });
     }
     return c.expects.map((e) => checkExpect(e, tmp)).filter(Boolean).map((f) => `${c.name}: ${f}`);
   } finally {
