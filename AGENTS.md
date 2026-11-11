@@ -18,8 +18,8 @@ and mark the work accordingly — never present it as done.
    or stays unverified.
 2. CI steps are bash-pinned; verify each `run:` command locally under bash
    (`git bash` works) exactly as written before pushing a workflow change.
-   The remote may be a local bare repo — the workflow runs nowhere until a
-   real CI remote exists; local execution is the only runner it has.
+   Remotes: `origin` (local bare) and `github` (fedesauzzadev/brainloom,
+   public — GitHub Actions runs the CI there for real).
 3. Follow Keep-a-Changelog + SemVer; additive brain-format fields need no
    schema bump (precedent: `verify:` 0.3.0, `verification.level` 0.4.0);
    breaking changes ship a migration in the same change.

@@ -6,6 +6,19 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-11
+
+### Added
+- Merged the parallel GitHub line (Slices 3–7) into the 0.4.x verification line. From that line: skills `plan-project`, `build-slice`, `verify`, `small-change`, `adopt`, `reconcile`; OpenCode agents `brainloom/planner` (strong), `brainloom/scout` (fast), `brainloom/verifier` (read-only, refutation mandate); the full slash-command set (`/triage /plan-project /build-slice /fix /verify /reconcile /adopt /init-brain /kit-update`); bilingual (EN/ES) README; `CONTRIBUTING.md`; agent routing by model level in `triage` (§7).
+- `## Verification` contracts for the six merged skills, so `smoke.mjs` structural mode covers the full skill set.
+
+### Changed
+- Reconciled both lines onto the 0.4.x brain format: status ladder with `implemented`, the `verify:` recipe, and `verification.level` (schema 2) apply everywhere — the merged skills now speak that vocabulary. Plugin `lib.js` keeps the BREAKING-detection fix (identical on both lines) plus the 0.4.1 cache fields. CI keeps the bash-pinned workflow with the smoke steps.
+- CI actions bumped to `actions/checkout@v5` / `actions/setup-node@v5` on Node 24 (Node 20 deprecation warnings on the runners).
+- `CONTRIBUTING.md` extended with the kit's own rules: verification contracts for every skill, `smoke.mjs` in the pre-push checklist, and the Windows ASCII/BOM rule for non-`.mjs` scripts.
+
+No brain-format change: `schema_version` stays 2; no migration needed.
+
 ## [0.4.2] - 2026-11-11
 
 ### Fixed
@@ -67,3 +80,18 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 - Scripts: `check-update`, `validate-brain`, `migrate` (dry-run default, backup, validation, rollback).
 - Migrations skeleton + rules (`core/migrations/`), test fixtures for validation and the update/migration drill.
 - CI: cross-OS (ubuntu/macos/windows) syntax check, brain validation, migration dry-run, offline tolerance.
+
+## [0.1.0] - 2026-11-09
+
+Parallel line (merged in 0.5.0). Its unique content — beyond what 0.2.0 already
+recorded — was:
+
+### Added
+- Skills: `plan-project` (whole idea → ordered vertical slices, shared candidates, risks; records roadmap after approval) and `build-slice` (decompose into nodes, acceptance criteria first, thin end-to-end, functional verification, close the slice).
+- Skills: `verify` (criteria audit, tests, functional execution, independent refutation) and `small-change` (encapsulated FIX/S flow).
+- Skills: `adopt` (existing codebase → area nodes with per-area user OK, honest post-hoc documentation, conventions + registry from real usage) and `reconcile` (drift detection: stale pointers, lying statuses, broken links, index rot; mechanical fixes direct, semantic after user OK).
+- OpenCode agent `brainloom/verifier`: independent read-only subagent with a refutation mandate (edits denied, execution allowed).
+- OpenCode agents `brainloom/planner` (strong level: ambiguous triage, L planning) and `brainloom/scout` (fast level: targeted reading, pointer summaries).
+- Full command set: /triage, /plan-project, /build-slice, /fix, /verify, /reconcile, /adopt, /init-brain, /kit-update.
+- Agent routing by level (strong/balanced/fast) resolved from instance config at spawn time in skills.
+- Bilingual (EN/ES) README; `CONTRIBUTING.md`.
