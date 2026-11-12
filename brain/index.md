@@ -14,7 +14,7 @@ Tool-agnostic core + OpenCode adapter; every claim verified by an executed comma
 ## Nodes
 | ID | Title | Type | Size | Status | Key links |
 |----|-------|------|------|--------|-----------|
-| N-0001 | Adversarial testing in verification (property + fuzz) | feature | M | verified | code: core/skills/verify/SKILL.md -> §3; agents/brainloom/verifier.md -> Mandate; evidence/N-0001.md; D-0005 |
+| N-0001 | Adversarial testing in verification (property + fuzz) | feature | M | shipped | code: core/skills/verify/SKILL.md -> §3; agents/brainloom/verifier.md -> Mandate; evidence/N-0001.md; D-0005 |
 
 ## Open risks / blockers
 -
