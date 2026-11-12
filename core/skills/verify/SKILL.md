@@ -1,6 +1,6 @@
 ---
 name: Brainloom Verify
-description: Real verification of a task or node — acceptance-criteria audit, tests, functional execution, and an independent read-only verifier subagent whose job is to REFUTE that it works. Use when a node reaches verification, when the user asks to verify or check work, or before marking anything done.
+description: Real verification of a task or node — acceptance-criteria audit, tests, adversarial testing (property-based + fuzzing), functional execution, and an independent read-only verifier subagent whose job is to REFUTE that it works. Use when a node reaches verification, when the user asks to verify or check work, or before marking anything done.
 ---
 
 # Verify
@@ -13,15 +13,33 @@ marked unmet with a reason. No silent drops, no reinterpretation.
 
 ## 2. Tests
 Run `commands.test` from `brain/config.yaml`. No harness? Say so and lean on
-step 3 — do not pretend tests exist.
+step 4 — do not pretend tests exist.
 
-## 3. Functional verification
+## 3. Adversarial testing (property + fuzz)
+Confirming it works is not enough — attack it before trusting it. Scale to
+the input surface; seeds and counts go in the evidence.
+- Property-based testing: write RULES, not cases — invariants that must hold
+  for ANY input (same input → same output; serialize→parse round-trips;
+  state never invalid; ordering stable; nothing lost or duplicated). Generate
+  hundreds of random inputs per rule with a FIXED SEED — stack lib
+  (`fast-check` / `hypothesis` / `proptest`) or a small seeded generator of
+  your own. A counterexample is a finding: shrink it to the minimal input
+  that reproduces it.
+- Fuzzing: hammer trust boundaries (parsers, endpoints, deserializers, input
+  handlers) with random and malformed inputs at scale — truncated, empty,
+  huge, hostile unicode, wrong types, broken JSON/YAML. Crash, hang, or
+  unhandled exception = finding. Keep the seed + the triggering input.
+No input surface (config/docs delta)? Say so and skip — a declared scope
+decision, not a silent drop. Findings: fix now and re-verify, or the node
+stays `implemented` (the claim did not hold).
+
+## 4. Functional verification
 Actually run the thing (`commands.run`, CLI, endpoint, flow) per criterion.
 Expected vs observed, each step. Save a short evidence file in
 `brain/evidence/` and reference it from the node as `evidence/<file>` —
 relative to `brain/`, never the project-root form.
 
-## 4. Independent verification (refutation)
+## 5. Independent verification (refutation)
 Spawn the read-only verifier subagent (harness namespace, e.g.
 `brainloom/verifier`). Batch when you can: verifying several nodes (a finished
 slice) is ONE spawn with all of them — per-node spawns are the expensive
@@ -38,11 +56,11 @@ and the mandate: TRY TO REFUTE. It executes but does not edit production code.
 - FAIL or partial → report its findings verbatim; the node stays
   `implemented` (the claim did not hold). Fix, then re-verify.
 
-## 5. What cannot be verified
+## 6. What cannot be verified
 State explicitly anything unverifiable (no harness, environment limits) and its
 risk. Never declare done over an unverified gap.
 
-## 6. Close
+## 7. Close
 Update node (`verification` fields incl. `level`, `status: verified`), evidence
 file, `brain/index.md`. Human gates (commit, deploy, merge) later promote it
 to `shipped`.

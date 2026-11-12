@@ -9,6 +9,11 @@ Entries that change the brain format, config, or skill contracts are marked **[B
 ### Added
 - The kit repo now dogfoods the kit itself: `brain/` initialized (clean start, no adopt mapping — history stays in CHANGELOG.md). Kit-dev rules stay in `AGENTS.md` §1–6; the brainloom instance block is appended below them. Bilingual convention: English structure, Spanish one-line summaries for the human (decision D-0002). Model tiers empty → harness default, stated when used (D-0004). Not shipped to users: the installer copies only `core/`, `adapters/`, `scripts/`.
 
+## [0.8.0] - 2026-11-11
+
+### Added
+- Adversarial testing in verification: `verify` §3 (new, steps renumbered) makes every verification attack the input surface before trusting it — property-based testing (invariants over hundreds of random seeded inputs; stack lib or a seeded generator of your own; counterexamples shrunk to a minimal reproducing input) and fuzzing (malformed inputs at scale against trust boundaries; crash/hang/unhandled exception = finding; seed + trigger kept). No input surface → declared skip, never a silent drop. The `brainloom/verifier` mandate (§3) gains the same attack: invariant breaks and fuzz crashes are FAILs with seed + minimal trigger. Evidence before shipping the wording: dry run on a real zero-dep CLI (fixture-style project) — 4 invariants × 100 seeded runs found a real id-collision bug (85/100 fail, shrunk to 1 note); 300 fuzz vectors found 3 critical crash paths (malformed storage JSON, prototype-chain argv, silent data loss). Verified: `smoke.mjs` structural pass + `smoke.mjs --agent --skill verify` contract pass on the real harness.
+
 ## [0.7.1] - 2026-11-11
 
 ### Changed

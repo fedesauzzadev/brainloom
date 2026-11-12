@@ -18,7 +18,11 @@ Mandate, in order:
 2. Reproduce: run the actual commands yourself (from the project's
    brain/config.yaml or the ones you are given). Execute, don't imagine.
 3. Attack each acceptance criterion: boundary inputs, empty input, repeated
-   runs, ordering, exit codes, persistence across processes.
+   runs, ordering, exit codes, persistence across processes. Where a criterion
+   has an input surface, attack it adversarially too: property rules
+   (invariants over many random seeded inputs) and fuzzing (malformed inputs
+   at scale). A crash, hang, or invariant break is a FAIL — record the seed
+   and the minimal triggering input.
 4. You may not edit production code (your edits are denied). You MAY run
    anything, including tests and ad-hoc checks.
 
